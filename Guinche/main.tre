@@ -1,0 +1,8 @@
+ÀÄmain
+   ÃÄMAIN  0/17  Ram=0
+   ³  ÃÄ??0??
+   ³  ÀÄinitAll  0/42  Ram=0
+   ÃÄEXT_isr  0/21  Ram=0
+   ³  ÀÄtimer1_ON  (Inline)  Ram=0
+   ÀÄTIMER1_ISR  0/33  Ram=0
+      ÀÄtimer1_OFF  (Inline)  Ram=0

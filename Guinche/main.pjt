@@ -1,0 +1,27 @@
+[PROJECT]
+Target=\\SERVER\Centro de Datos\Sistemas\Emiliano Borghi\Software\Sist Seguridad Guinche\main.hex
+Development_Mode=
+Processor_Text=PIC12F675
+ToolSuite=CCS
+Processor=0x2675
+[\\SERVER\Centro de Datos\Sistemas\Emiliano Borghi\Software\Sist Seguridad Guinche\main]
+Type=4
+Path=
+FileList=
+BuildTool=
+OptionString=
+AdditionalOptionString=
+[mru-list]
+1=\\SERVER\Centro de Datos\Sistemas\Emiliano Borghi\Software\Sist Seguridad Guinche\main.c
+[Windows]
+0=0000 %S 0 0 796 451 3 0
+[Opened Files]
+1=main.c
+2=main.h
+3=
+[Target Data]
+OptionString=-p +FM
+FileList=\\Server\centro de datos\Sistemas\Emiliano Borghi\Software\Guinche\main.c
+[Units]
+Count=1
+1=main (main)

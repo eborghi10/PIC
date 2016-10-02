@@ -1,0 +1,310 @@
+CCS PCM C Compiler, Version 4.104, 5967               11-sep-15 15:49
+
+               Filename: \\Server\centro de datos\Sistemas\Emiliano Borghi\Software\Guinche\main.lst
+
+               ROM used: 180 words (18%)
+                         Largest free fragment is 844
+               RAM used: 14 (22%) at main() level
+                         14 (22%) worst case
+               Stack:    2 worst case (1 in main + 1 for interrupts)
+
+*
+0000:  MOVLW  00
+0001:  MOVWF  0A
+0002:  GOTO   03C
+0003:  NOP
+0004:  BTFSC  03.5
+0005:  GOTO   00A
+0006:  MOVWF  24
+0007:  SWAPF  03,W
+0008:  MOVWF  25
+0009:  GOTO   00F
+000A:  BCF    03.5
+000B:  MOVWF  24
+000C:  SWAPF  03,W
+000D:  MOVWF  25
+000E:  BSF    25.1
+000F:  MOVF   0A,W
+0010:  MOVWF  2B
+0011:  CLRF   0A
+0012:  BCF    03.7
+0013:  SWAPF  24,F
+0014:  MOVF   04,W
+0015:  MOVWF  26
+0016:  MOVF   20,W
+0017:  MOVWF  27
+0018:  MOVF   21,W
+0019:  MOVWF  28
+001A:  MOVF   22,W
+001B:  MOVWF  29
+001C:  MOVF   23,W
+001D:  MOVWF  2A
+001E:  BCF    03.5
+001F:  BTFSS  0B.4
+0020:  GOTO   023
+0021:  BTFSC  0B.1
+0022:  GOTO   042
+0023:  MOVLW  8C
+0024:  MOVWF  04
+0025:  BTFSS  00.0
+0026:  GOTO   029
+0027:  BTFSC  0C.0
+0028:  GOTO   057
+0029:  MOVF   26,W
+002A:  MOVWF  04
+002B:  MOVF   27,W
+002C:  MOVWF  20
+002D:  MOVF   28,W
+002E:  MOVWF  21
+002F:  MOVF   29,W
+0030:  MOVWF  22
+0031:  MOVF   2A,W
+0032:  MOVWF  23
+0033:  MOVF   2B,W
+0034:  MOVWF  0A
+0035:  SWAPF  25,W
+0036:  MOVWF  03
+0037:  BCF    03.5
+0038:  SWAPF  24,W
+0039:  BTFSC  25.1
+003A:  BSF    03.5
+003B:  RETFIE
+003C:  CALL   3FF
+003D:  BSF    03.5
+003E:  MOVWF  10
+003F:  MOVLW  00
+0040:  MOVWF  0A
+0041:  GOTO   0A2
+.................... #include "\\SERVER\Centro de Datos\Sistemas\Emiliano Borghi\Software\Guinche\main.h" 
+.................... #include <12F675.h> 
+.................... //////// Standard Header file for the PIC12F675 device //////////////// 
+.................... #device PIC12F675 
+.................... #list 
+....................  
+....................  
+.................... #device adc=10 
+....................  
+.................... #FUSES NOWDT                    //No Watch Dog Timer 
+.................... #FUSES INTRC_IO 
+.................... #FUSES NOCPD                    //No EE protection 
+.................... #FUSES NOPROTECT                //Code not protected from reading 
+.................... #FUSES MCLR                     //Master Clear pin enabled 
+.................... #FUSES NOPUT                    //No Power Up Timer 
+.................... #FUSES NOBROWNOUT               //No brownout reset 
+.................... #FUSES BANDGAP_HIGH           
+.................... #FUSES RESERVED                 //Used to set the reserved FUSE bits 
+....................  
+.................... #use delay(clock=4000000) 
+....................  
+.................... #define GP0   PIN_A0 
+.................... #define GP1   PIN_A1 
+.................... #define GP2   PIN_A2 
+.................... #define GP3   PIN_A3 
+.................... #define GP4   PIN_A4 
+.................... #define GP5   PIN_A5 
+....................  
+.................... #ROM 0x3FF={0x342C}  // VALOR DE OSCCAL PARA EL PIC12F675!!! 
+....................  
+.................... #define LEDS                 GP0      // LEDs indicadores de presencia/funcionamiento 
+.................... #define ACTIVACION_RELE      GP1      // Salida de Rel� 
+.................... #define SENSOR_MOVIMIENTO    GP2      // Entrada de Interrupci�n externa 
+....................  
+.................... #define SEG_PARADA      5 
+.................... #define SEG_CALIBRACION 60 
+....................  
+.................... BYTE tiempoTimer = 0; 
+.................... BOOLEAN calibracion = TRUE; 
+....................  
+.................... void timer1_ON(void) 
+.................... { 
+....................    tiempoTimer = 0; 
+*
+0046:  CLRF   2C
+....................    output_high(LEDS); 
+0047:  BSF    03.5
+0048:  BCF    05.0
+0049:  BCF    03.5
+004A:  BSF    05.0
+....................    setup_timer_1(T1_INTERNAL|T1_DIV_BY_8); 
+004B:  MOVLW  35
+004C:  MOVWF  10
+....................    enable_interrupts(INT_TIMER1); 
+004D:  BSF    03.5
+004E:  BSF    0C.0
+....................    set_timer1(0x0BDC); 
+004F:  MOVLW  0B
+0050:  BCF    03.5
+0051:  MOVWF  0F
+0052:  MOVLW  DC
+0053:  MOVWF  0E
+.................... } 
+....................  
+.................... void timer1_OFF(void) 
+.................... { 
+....................    setup_timer_1(T1_DISABLED); 
+*
+0070:  CLRF   10
+....................    output_low(LEDS); 
+0071:  BSF    03.5
+0072:  BCF    05.0
+0073:  BCF    03.5
+0074:  BCF    05.0
+.................... } 
+....................  
+.................... void initAll(void) 
+.................... { 
+....................    set_tris_a(0b00111110); 
+*
+0078:  MOVLW  3E
+0079:  BSF    03.5
+007A:  MOVWF  05
+....................    setup_adc_ports(NO_ANALOGS); 
+007B:  BCF    03.5
+007C:  BCF    1F.6
+007D:  BSF    03.5
+007E:  BCF    1F.0
+007F:  BCF    1F.1
+0080:  BCF    1F.2
+0081:  BCF    1F.3
+....................    setup_adc(ADC_OFF); 
+0082:  BCF    03.5
+0083:  BCF    1F.0
+....................    setup_comparator(NC_NC_NC_NC); 
+0084:  MOVLW  07
+0085:  MOVWF  19
+0086:  BSF    03.5
+0087:  MOVF   05,W
+0088:  MOVWF  05
+0089:  MOVLW  03
+008A:  BCF    03.5
+008B:  MOVWF  20
+008C:  DECFSZ 20,F
+008D:  GOTO   08C
+008E:  MOVF   19,W
+008F:  BCF    0C.3
+....................    setup_vref(FALSE); 
+0090:  BSF    03.5
+0091:  CLRF   19
+....................    enable_interrupts(INT_EXT); 
+0092:  BCF    03.5
+0093:  BSF    0B.4
+....................    ext_int_edge(L_TO_H); 
+0094:  BSF    03.5
+0095:  BSF    01.6
+....................    enable_interrupts(GLOBAL); 
+0096:  MOVLW  C0
+0097:  BCF    03.5
+0098:  IORWF  0B,F
+....................    // NO HABILITO EL TIMER 1 !!! 
+....................    output_high(ACTIVACION_RELE);    // El relé comienzo activado por defecto 
+0099:  BSF    03.5
+009A:  BCF    05.1
+009B:  BCF    03.5
+009C:  BSF    05.1
+....................    output_high(LEDS); 
+009D:  BSF    03.5
+009E:  BCF    05.0
+009F:  BCF    03.5
+00A0:  BSF    05.0
+.................... } 
+00A1:  GOTO   0B1 (RETURN)
+....................  
+....................  
+.................... #int_EXT 
+.................... void  EXT_isr(void)  
+.................... { 
+....................    // Si se detecta una persona, se activa la interrupción externa. 
+....................    // Se debe apagar el relé durante un cierto tiempo. 
+....................    // Para ello, se activa un timer de 2,5 segundos. 
+....................    output_high(ACTIVACION_RELE); 
+*
+0042:  BSF    03.5
+0043:  BCF    05.1
+0044:  BCF    03.5
+0045:  BSF    05.1
+....................    timer1_ON(); 
+.................... } 
+....................  
+*
+0054:  BCF    0B.1
+0055:  BCF    0A.3
+0056:  GOTO   029
+.................... #INT_TIMER1 
+.................... void TIMER1_ISR(void)   // Interrumpe aprox. cada 500 ms 
+.................... { 
+....................    tiempoTimer++; 
+0057:  INCF   2C,F
+....................     
+....................    if(calibracion){ 
+0058:  BTFSS  2D.0
+0059:  GOTO   067
+....................       if(tiempoTimer >= (BYTE)(SEG_CALIBRACION*2)){ 
+005A:  MOVF   2C,W
+005B:  SUBLW  77
+005C:  BTFSC  03.0
+005D:  GOTO   061
+....................          tiempoTimer = 0; 
+005E:  CLRF   2C
+....................          calibracion = FALSE; 
+005F:  BCF    2D.0
+....................       } 
+....................       else output_toggle(LEDS); 
+0060:  GOTO   066
+0061:  BSF    03.5
+0062:  BCF    05.0
+0063:  MOVLW  01
+0064:  BCF    03.5
+0065:  XORWF  05,F
+....................    } 
+....................        
+....................    else if (tiempoTimer >= (BYTE)(SEG_PARADA*2)){ 
+0066:  GOTO   075
+0067:  MOVF   2C,W
+0068:  SUBLW  09
+0069:  BTFSC  03.0
+006A:  GOTO   075
+....................       tiempoTimer = 0;   // TIEMPO = 2,5 segundos 
+006B:  CLRF   2C
+....................       output_low(ACTIVACION_RELE); 
+006C:  BSF    03.5
+006D:  BCF    05.1
+006E:  BCF    03.5
+006F:  BCF    05.1
+....................       timer1_OFF();      // Apaga Timer hasta nueva interrupción 
+....................    } 
+.................... } 
+....................  
+*
+0075:  BCF    0C.0
+0076:  BCF    0A.3
+0077:  GOTO   029
+.................... void main() 
+.................... { 
+*
+00A2:  CLRF   04
+00A3:  MOVLW  1F
+00A4:  ANDWF  03,F
+00A5:  CLRF   2C
+00A6:  BSF    2D.0
+00A7:  BCF    1F.6
+00A8:  BSF    03.5
+00A9:  BCF    1F.0
+00AA:  BCF    1F.1
+00AB:  BCF    1F.2
+00AC:  BCF    1F.3
+00AD:  MOVLW  07
+00AE:  BCF    03.5
+00AF:  MOVWF  19
+....................    initAll(); 
+00B0:  GOTO   078
+....................     
+....................    while(TRUE){}; 
+00B1:  GOTO   0B1
+.................... } 
+00B2:  SLEEP
+
+Configuration Fuses:
+   Word  1: 3FB4   NOWDT NOCPD NOPROTECT MCLR NOPUT INTRC_IO NOBROWNOUT BANDGAP_HIGH
+
+ROM data:
+0003FF: 342C 

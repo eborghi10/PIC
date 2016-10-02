@@ -1,0 +1,50 @@
+
+ROM used: 180 (18%)
+          1024 (100%) including unused fragments
+
+          1 Average locations per line
+          5 Average locations per statement
+
+RAM used: 14 (22%) at main() level
+          14 (22%) worst case
+
+Stack used: 2 worst case (out of 8 total available)
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+   39    19  53  main.c
+   65    17  47  main.h
+  218     0   0  C:\Archivos de programa\PICC\devices\12F675.h
+----- -----
+  322    36 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+ Inline        0   106  2.1  timer1_ON
+ Inline        0    37  1.1  timer1_OFF
+0     42  23   0   202  1.4  initAll
+0     21  12   0    32  1.0  EXT_isr
+0     33  18   0   285  4.3  TIMER1_ISR
+0     17   9   0    30  1.0  MAIN
+
+Program metrics:
+    Functions               6
+    Statements              36
+    Comments                68
+    Volume (V)              1045
+    Difficilty (D)          11.6
+    Effort to implement (E) 12095
+    Time to implement (T)   11 minutes
+    Est Delivered Bugs (B)  0
+    Cyclomatic Complexity   3
+    Maintainability (MI)    71
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00003     4  0  
+00004-0003B    56  0  
+0003C-003FE   119  844  
+003FF-003FF     1  0  
+
+
+

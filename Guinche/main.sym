@@ -1,0 +1,62 @@
+004-005 @READ_PROGRAM_MEMORY8.P1
+019.6   C1OUT
+020     @SCRATCH
+021     @SCRATCH
+021     _RETURN_
+022     @SCRATCH
+023     @SCRATCH
+024     @INTERRUPT_AREA
+025     @INTERRUPT_AREA
+026     @INTERRUPT_AREA
+027     @INTERRUPT_AREA
+028     @INTERRUPT_AREA
+029     @INTERRUPT_AREA
+02A     @INTERRUPT_AREA
+02B     @INTERRUPT_AREA
+02C     tiempoTimer
+02D.0   calibracion
+09B-09C @READ_PROGRAM_MEMORY8.P1
+
+ROM Allocation:
+0046  timer1_ON
+0070  timer1_OFF
+0078  initAll
+0042  EXT_isr
+0057  TIMER1_ISR
+00A2  MAIN
+00A2  @cinit
+
+
+User Memory space: 
+
+User Memory space: 
+
+Project Directory:
+    \\Server\centro de datos\Sistemas\Emiliano Borghi\Software\Guinche\
+
+Project Files:
+    main.c
+    main.h
+    C:\Archivos de programa\PICC\devices\12F675.h
+
+Units:
+    \\Server\centro de datos\Sistemas\Emiliano Borghi\Software\Guinche\main (main)
+
+Compiler Settings:
+    Processor:      PIC12F675
+    Pointer Size:   8
+    ADC Range:      0-1023
+    Opt Level:      9
+    Short,Int,Long: UNSIGNED: 1,8,16
+    Float,Double:   32,32
+
+Output Files:
+    Errors:      main.err
+    Ext Symbols: main.esym
+    INHX8:       main.hex
+    Symbols:     main.sym
+    List:        main.lst
+    Debug/COFF:  main.cof
+    Project:     main.PJT
+    Call Tree:   main.tre
+    Statistics:  main.sta
